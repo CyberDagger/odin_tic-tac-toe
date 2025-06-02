@@ -1,4 +1,4 @@
-const Board = (function () {
+const Gameboard = (function () {
     function createField() {
         let symbol = " ";
         function setSymbol(a) {
@@ -30,10 +30,13 @@ const Board = (function () {
     return { setFieldSymbol, getFieldSymbol, getBoard };
 })();
 
-console.log(Board.getBoard());
-Board.setFieldSymbol(0, 1, "X");
+/*----------------*/
+/* Test functions */
+/*----------------*/
+console.log(Gameboard.getBoard());
+Gameboard.setFieldSymbol(0, 1, "X");
 console.log(" ");
-console.log(Board.getBoard());
-Board.setFieldSymbol(1, 2, "O");
+console.log(Gameboard.getBoard());
+Gameboard.setFieldSymbol(1, 2, "O");
 console.log(" ");
-console.log(Board.getBoard());
+console.log(Gameboard.getBoard());
