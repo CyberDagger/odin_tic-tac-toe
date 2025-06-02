@@ -37,13 +37,37 @@ function createPlayer(name, symbol) {
 const player1 = createPlayer("Player 1", "X");
 const player2 = createPlayer("Player 2", "O");
 
+const gameState = (function () {
+    let activePlayer;
+    function startGame() {
+        activePlayer = player1;
+    }
+    function playRound(row, column) {
+        Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
+        if (activePlayer === player1) {
+            activePlayer = player2;
+        } else {
+            activePlayer = player1;
+        }
+    }
+    return { startGame, playRound }
+})();
+
 /*----------------*/
 /* Test functions */
 /*----------------*/
+function testPlay(row, column) {
+    gameState.playRound(row, column);
+    console.log(" ");
+    console.log(Gameboard.getBoard());
+}
+
+gameState.startGame();
 console.log(Gameboard.getBoard());
-Gameboard.setFieldSymbol(0, 1, "X");
-console.log(" ");
-console.log(Gameboard.getBoard());
-Gameboard.setFieldSymbol(1, 2, "O");
-console.log(" ");
-console.log(Gameboard.getBoard());
+testPlay(0, 1);
+testPlay(1, 2);
+testPlay(0, 2);
+testPlay(0, 0);
+testPlay(1, 1);
+testPlay(2, 0);
+testPlay(2, 1);
