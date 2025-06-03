@@ -1,4 +1,6 @@
 const cells = document.querySelectorAll(".cell");
+const displayPlayer1 = document.querySelector("#display-player1");
+const displayPlayer2 = document.querySelector("#display-player2");
 
 const Gameboard = (function () {
     function createField() {
@@ -42,6 +44,8 @@ const player2 = createPlayer("Player 2", "O");
 const gameState = (function () {
     let activePlayer;
     function startGame() {
+        displayPlayer1.textContent = player1.name;
+        displayPlayer2.textContent = player2.name;
         activePlayer = player1;
     }
 
