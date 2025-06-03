@@ -1,3 +1,5 @@
+const cells = document.querySelectorAll(".cell");
+
 const Gameboard = (function () {
     function createField() {
         let symbol = " ";
@@ -58,7 +60,6 @@ const gameState = (function () {
                 winnerCheck = 0;
             }
         }
-
         // Check horizontals
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -70,7 +71,6 @@ const gameState = (function () {
             }
             winnerCalc();
         }
-        
         // Check verticals
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -82,7 +82,6 @@ const gameState = (function () {
             }
             winnerCalc();
         }
-        
         // Check diagonals
         for (let i = 0; i < 3; i++) {
             if (Gameboard.getFieldSymbol(i, i) === "X") {
@@ -92,7 +91,6 @@ const gameState = (function () {
             }
         }
         winnerCalc();
-        
         for (let i = 0; i < 3; i++) {
             if (Gameboard.getFieldSymbol(i, 2 - i) === "X") {
                 winnerCheck++;
@@ -106,6 +104,7 @@ const gameState = (function () {
     function playRound(row, column) {
         Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
         Gameboard.getBoard();
+        displayRenderer.drawSymbols();
         checkWin();
         if (activePlayer === player1) {
             activePlayer = player2;
@@ -114,6 +113,15 @@ const gameState = (function () {
         }
     }
     return { startGame, playRound }
+})();
+
+const displayRenderer = (function () {
+    function drawSymbols() {
+        cells.forEach((element) => {
+            element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
+        });
+    }
+    return { drawSymbols }
 })();
 
 /*----------------*/
