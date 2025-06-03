@@ -1,6 +1,7 @@
 const cells = document.querySelectorAll(".cell");
 const displayPlayer1 = document.querySelector("#display-player1");
 const displayPlayer2 = document.querySelector("#display-player2");
+const dialogGameOver = document.querySelector("#game-over");
 
 const Gameboard = (function () {
     function createField() {
@@ -107,7 +108,7 @@ const gameState = (function () {
 
     function playRound(row, column) {
         Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
-        Gameboard.getBoard();
+        //Gameboard.getBoard();
         displayRenderer.drawSymbols();
         checkWin();
         if (activePlayer === player1) {
@@ -128,16 +129,29 @@ const displayRenderer = (function () {
     return { drawSymbols }
 })();
 
+function testPlay(row, column) {
+    gameState.playRound(row, column);
+    console.log(" ");
+}
+
+cells.forEach((element) => {
+    element.addEventListener("click", () => {gameState.playRound(element.dataset.row, element.dataset.column)});
+})
+
+gameState.startGame();
+
 /*----------------*/
 /* Test functions */
 /*----------------*/
+/*
 function testPlay(row, column) {
     gameState.playRound(row, column);
     console.log(" ");
 }
 
 gameState.startGame();
-console.log(Gameboard.getBoard());
+//console.log(Gameboard.getBoard());
+
 testPlay(0, 1);
 testPlay(1, 2);
 testPlay(0, 2);
@@ -145,3 +159,4 @@ testPlay(0, 0);
 testPlay(1, 1);
 testPlay(2, 0);
 testPlay(2, 1);
+*/
