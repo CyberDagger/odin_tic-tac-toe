@@ -5,7 +5,7 @@ const dialogGameOver = document.querySelector("#game-over");
 
 const Gameboard = (function () {
     function createField() {
-        let symbol = " ";
+        let symbol = "";
         function setSymbol(a) {
             symbol = a;
         };
@@ -54,10 +54,14 @@ const gameState = (function () {
         let winnerCheck = 0;
         function winnerCalc() {
             if (winnerCheck === 3) {
+                dialogGameOver.textContent = "Player 1 wins!";
+                dialogGameOver.showModal();
                 console.log("Player 1 wins!");
                 winnerCheck = 0;
                 return;
             } else if (winnerCheck === -3) {
+                dialogGameOver.textContent = "Player 2 wins!";
+                dialogGameOver.showModal();
                 console.log("Player 2 wins!");
                 winnerCheck = 0;
                 return;
@@ -106,6 +110,10 @@ const gameState = (function () {
         winnerCalc();
     }
 
+    function checkFull() {
+        
+    }
+
     function playRound(row, column) {
         Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
         //Gameboard.getBoard();
@@ -135,7 +143,11 @@ function testPlay(row, column) {
 }
 
 cells.forEach((element) => {
-    element.addEventListener("click", () => {gameState.playRound(element.dataset.row, element.dataset.column)});
+    element.addEventListener("click", () => {
+        if (Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column) === "") {
+            gameState.playRound(element.dataset.row, element.dataset.column);
+        }
+    });
 })
 
 gameState.startGame();
