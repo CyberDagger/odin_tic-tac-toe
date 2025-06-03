@@ -111,14 +111,22 @@ const gameState = (function () {
     }
 
     function checkFull() {
-        
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (Gameboard.getFieldSymbol(i, j) === "") {
+                    return;
+                }
+            }
+        }
+        dialogGameOver.textContent = "No contest!";
+        dialogGameOver.showModal();
     }
 
     function playRound(row, column) {
         Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
-        //Gameboard.getBoard();
         displayRenderer.drawSymbols();
         checkWin();
+        checkFull();
         if (activePlayer === player1) {
             activePlayer = player2;
         } else {
