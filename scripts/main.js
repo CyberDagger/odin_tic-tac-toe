@@ -21,11 +21,11 @@ const Gameboard = (function () {
         return fields[row][column].getSymbol();
     }
     function getBoard() {
-        return `${(this.getFieldSymbol(0, 0))}|${(this.getFieldSymbol(0, 1))}|${(this.getFieldSymbol(0, 2))}
-        -----
-        ${(this.getFieldSymbol(1, 0))}|${(this.getFieldSymbol(1, 1))}|${(this.getFieldSymbol(1, 2))}
-        -----
-        ${(this.getFieldSymbol(2, 0))}|${(this.getFieldSymbol(2, 1))}|${(this.getFieldSymbol(2, 2))}`;
+        console.log(`${(this.getFieldSymbol(0, 0))}|${(this.getFieldSymbol(0, 1))}|${(this.getFieldSymbol(0, 2))}`);
+        console.log(`-----`);
+        console.log(`${(this.getFieldSymbol(1, 0))}|${(this.getFieldSymbol(1, 1))}|${(this.getFieldSymbol(1, 2))}`);
+        console.log(`-----`);
+        console.log(`${(this.getFieldSymbol(2, 0))}|${(this.getFieldSymbol(2, 1))}|${(this.getFieldSymbol(2, 2))}`);
     }
     return { setFieldSymbol, getFieldSymbol, getBoard };
 })();
@@ -42,8 +42,91 @@ const gameState = (function () {
     function startGame() {
         activePlayer = player1;
     }
+
+    function checkWin() {
+        let winnerCheck = 0;
+
+        // Check horizontals
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (Gameboard.getFieldSymbol(i, j) === "X") {
+                    winnerCheck++;
+                } else if (Gameboard.getFieldSymbol(i, j) === "O") {
+                    winnerCheck--;
+                }
+            }
+            if (winnerCheck === 3) {
+                console.log("Player 1 wins!");
+                return;
+            } else if (winnerCheck === -3) {
+                console.log("Player 2 wins!");
+                return;
+            } else {
+                winnerCheck = 0;
+            }
+        }
+        
+        // Check verticals
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (Gameboard.getFieldSymbol(j, i) === "X") {
+                    winnerCheck++;
+                } else if (Gameboard.getFieldSymbol(j, i) === "O") {
+                    winnerCheck--;
+                }
+            }
+            if (winnerCheck === 3) {
+                console.log("Player 1 wins!");
+                return;
+            } else if (winnerCheck === -3) {
+                console.log("Player 2 wins!");
+                return;
+            } else {
+                winnerCheck = 0;
+            }
+        }
+        
+        // Check diagonals
+        for (let i = 0; i < 3; i++) {
+            if (Gameboard.getFieldSymbol(i, i) === "X") {
+                winnerCheck++;
+            } else if (Gameboard.getFieldSymbol(i, i) === "O") {
+                winnerCheck--;
+            }
+        }
+        if (winnerCheck === 3) {
+            console.log("Player 1 wins!");
+            return;
+        } else if (winnerCheck === -3) {
+            console.log("Player 2 wins!");
+            return;
+        } else {
+            winnerCheck = 0;
+        }
+        
+        for (let i = 0; i < 3; i++) {
+            if (Gameboard.getFieldSymbol(i, 2 - i) === "X") {
+                winnerCheck++;
+            } else if (Gameboard.getFieldSymbol(i, 2 - i) === "O") {
+                winnerCheck--;
+            }
+        }
+        if (winnerCheck === 3) {
+            console.log("Player 1 wins!");
+            return;
+        } else if (winnerCheck === -3) {
+            console.log("Player 2 wins!");
+            return;
+        } else {
+            winnerCheck = 0;
+        }
+        
+    }
+
     function playRound(row, column) {
         Gameboard.setFieldSymbol(row, column, activePlayer.symbol);
+        Gameboard.getBoard();
+        checkWin();
         if (activePlayer === player1) {
             activePlayer = player2;
         } else {
@@ -59,7 +142,6 @@ const gameState = (function () {
 function testPlay(row, column) {
     gameState.playRound(row, column);
     console.log(" ");
-    console.log(Gameboard.getBoard());
 }
 
 gameState.startGame();
