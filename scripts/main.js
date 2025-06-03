@@ -45,6 +45,19 @@ const gameState = (function () {
 
     function checkWin() {
         let winnerCheck = 0;
+        function winnerCalc() {
+            if (winnerCheck === 3) {
+                console.log("Player 1 wins!");
+                winnerCheck = 0;
+                return;
+            } else if (winnerCheck === -3) {
+                console.log("Player 2 wins!");
+                winnerCheck = 0;
+                return;
+            } else {
+                winnerCheck = 0;
+            }
+        }
 
         // Check horizontals
         for (let i = 0; i < 3; i++) {
@@ -55,15 +68,7 @@ const gameState = (function () {
                     winnerCheck--;
                 }
             }
-            if (winnerCheck === 3) {
-                console.log("Player 1 wins!");
-                return;
-            } else if (winnerCheck === -3) {
-                console.log("Player 2 wins!");
-                return;
-            } else {
-                winnerCheck = 0;
-            }
+            winnerCalc();
         }
         
         // Check verticals
@@ -75,15 +80,7 @@ const gameState = (function () {
                     winnerCheck--;
                 }
             }
-            if (winnerCheck === 3) {
-                console.log("Player 1 wins!");
-                return;
-            } else if (winnerCheck === -3) {
-                console.log("Player 2 wins!");
-                return;
-            } else {
-                winnerCheck = 0;
-            }
+            winnerCalc();
         }
         
         // Check diagonals
@@ -94,15 +91,7 @@ const gameState = (function () {
                 winnerCheck--;
             }
         }
-        if (winnerCheck === 3) {
-            console.log("Player 1 wins!");
-            return;
-        } else if (winnerCheck === -3) {
-            console.log("Player 2 wins!");
-            return;
-        } else {
-            winnerCheck = 0;
-        }
+        winnerCalc();
         
         for (let i = 0; i < 3; i++) {
             if (Gameboard.getFieldSymbol(i, 2 - i) === "X") {
@@ -111,16 +100,7 @@ const gameState = (function () {
                 winnerCheck--;
             }
         }
-        if (winnerCheck === 3) {
-            console.log("Player 1 wins!");
-            return;
-        } else if (winnerCheck === -3) {
-            console.log("Player 2 wins!");
-            return;
-        } else {
-            winnerCheck = 0;
-        }
-        
+        winnerCalc();
     }
 
     function playRound(row, column) {
