@@ -25,18 +25,19 @@ body {
     font-weight: bold;
 }
 
-table {
+table.board {
     background-color: black;
     border: 1px solid black;
     margin: 100px;
 }
 
-td {
+.board td {
     background-color: white;
     border: 1px solid black;
     height: 100px;
     width: 100px;
     padding: 0;
+    line-height: 0;
 }
 
 .board button.cell {
@@ -45,7 +46,6 @@ td {
     border: none;
     padding: 0;
     background-color: transparent;
-    margin-top: 6px;
     font-size: 90px;
     color: black;
     line-height: 90px;
