@@ -1,7 +1,13 @@
+const dialogPlayerRegister = document.querySelector("#register-player");
+const dialogGameOver = document.querySelector("#game-over");
+
 const cells = document.querySelectorAll(".cell");
 const displayPlayer1 = document.querySelector("#display-player1");
 const displayPlayer2 = document.querySelector("#display-player2");
-const dialogGameOver = document.querySelector("#game-over");
+
+const nameInputP1 = document.querySelector("#p1-name");
+const nameInputP2 = document.querySelector("#p2-name");
+const buttonNameInput = document.querySelector("#submit-pname");
 
 const Gameboard = (function () {
     function createField() {
@@ -39,28 +45,28 @@ function createPlayer(name, symbol) {
     return { name, symbol };
 }
 
-const player1 = createPlayer("Player 1", "X");
-const player2 = createPlayer("Player 2", "O");
+//const player1 = createPlayer("Player 1", "X");
+//const player2 = createPlayer("Player 2", "O");
 
 const gameState = (function () {
     let activePlayer;
     function startGame() {
-        displayPlayer1.textContent = player1.name;
-        displayPlayer2.textContent = player2.name;
-        activePlayer = player1;
+        displayPlayer1.textContent = Players.getP1().name;
+        displayPlayer2.textContent = Players.getP2().name;
+        activePlayer = Players.getP1();
     }
 
     function checkWin() {
         let winnerCheck = 0;
         function winnerCalc() {
             if (winnerCheck === 3) {
-                dialogGameOver.textContent = "Player 1 wins!";
+                dialogGameOver.textContent = `${Players.getP1().name} wins!`;
                 dialogGameOver.showModal();
                 console.log("Player 1 wins!");
                 winnerCheck = 0;
                 return;
             } else if (winnerCheck === -3) {
-                dialogGameOver.textContent = "Player 2 wins!";
+                dialogGameOver.textContent = `${Players.getP1().name} wins!`;
                 dialogGameOver.showModal();
                 console.log("Player 2 wins!");
                 winnerCheck = 0;
@@ -127,10 +133,10 @@ const gameState = (function () {
         displayRenderer.drawSymbols();
         checkWin();
         checkFull();
-        if (activePlayer === player1) {
-            activePlayer = player2;
+        if (activePlayer === Players.getP1()) {
+            activePlayer = Players.getP2();
         } else {
-            activePlayer = player1;
+            activePlayer = Players.getP1();
         }
     }
     return { startGame, playRound }
@@ -141,14 +147,12 @@ const displayRenderer = (function () {
         cells.forEach((element) => {
             element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
         });
+    };
+    function showPlayerNames() {
+        displayPlayer1.textContent = Players
     }
-    return { drawSymbols }
+    return { drawSymbols, showPlayerNames }
 })();
-
-function testPlay(row, column) {
-    gameState.playRound(row, column);
-    console.log(" ");
-}
 
 cells.forEach((element) => {
     element.addEventListener("click", () => {
@@ -156,9 +160,41 @@ cells.forEach((element) => {
             gameState.playRound(element.dataset.row, element.dataset.column);
         }
     });
-})
+});
 
-gameState.startGame();
+// Working on this shit
+
+const Players =(function() {
+    let player1;
+    let player2;
+    function setP1(p) {
+        player1 = p;
+    }
+    function getP1() {
+        return player1;
+    }
+    function setP2(p) {
+        player2 = p;
+    }
+    function getP2() {
+        return player2;
+    }
+    return { setP1, setP2, getP1, getP2 }
+})();
+
+function registerPlayers(name1, name2) {
+    Players.setP1(createPlayer(name1, "X"));
+    Players.setP2(createPlayer(name2, "O"));
+}
+
+buttonNameInput.addEventListener("click", (event) => {
+    event.preventDefault();
+    registerPlayers(nameInputP1.value, nameInputP2.value);
+    gameState.startGame();
+    dialogPlayerRegister.close();
+});
+
+dialogPlayerRegister.showModal();
 
 /*----------------*/
 /* Test functions */
