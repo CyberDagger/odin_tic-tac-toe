@@ -66,7 +66,7 @@ const gameState = (function () {
                 winnerCheck = 0;
                 return;
             } else if (winnerCheck === -3) {
-                dialogGameOver.textContent = `${Players.getP1().name} wins!`;
+                dialogGameOver.textContent = `${Players.getP2().name} wins!`;
                 dialogGameOver.showModal();
                 console.log("Player 2 wins!");
                 winnerCheck = 0;
