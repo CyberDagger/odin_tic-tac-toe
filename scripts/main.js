@@ -1,14 +1,26 @@
+/*--------------*/
+/* DOM ELEMENTS */
+/*--------------*/
+
+// Game Board
+const cells = document.querySelectorAll(".cell");
+const displayPlayer1 = document.querySelector("#display-player1");
+const displayPlayer2 = document.querySelector("#display-player2");
+//Game Start Dialog
 const dialogPlayerRegister = document.querySelector("#register-player");
 const nameInputP1 = document.querySelector("#p1-name");
 const nameInputP2 = document.querySelector("#p2-name");
 const buttonNameInput = document.querySelector("#submit-pname");
-
-const cells = document.querySelectorAll(".cell");
-const displayPlayer1 = document.querySelector("#display-player1");
-const displayPlayer2 = document.querySelector("#display-player2");
-
+// Game Over Dialog
 const dialogGameOver = document.querySelector("#game-over");
 const messageGameOver = document.querySelector("#gameover-message");
+const buttonRestart = document.querySelector("#restart-game");
+
+/*--------------*/
+/* GAME OBJECTS */
+/*--------------*/
+
+// Game Board keeps and manipulates board state
 
 const Gameboard = (function () {
     function createField() {
@@ -42,12 +54,55 @@ const Gameboard = (function () {
     return { setFieldSymbol, getFieldSymbol, getBoard };
 })();
 
+// Players object has data about the players saved inside it
+// Needs refactoring, but game works properly now, so low priority
+
+const Players =(function() {
+    let player1;
+    let player2;
+    function setP1(p) {
+        player1 = p;
+    }
+    function getP1() {
+        return player1;
+    }
+    function setP2(p) {
+        player2 = p;
+    }
+    function getP2() {
+        return player2;
+    }
+    return { setP1, setP2, getP1, getP2 }
+})();
+
+function registerPlayers(name1, name2) {
+    Players.setP1(createPlayer(name1, "X"));
+    Players.setP2(createPlayer(name2, "O"));
+}
+
 function createPlayer(name, symbol) {
     return { name, symbol };
 }
 
-//const player1 = createPlayer("Player 1", "X");
-//const player2 = createPlayer("Player 2", "O");
+// Object used to render game objects on screen
+// showPlayerNames unfinished and not in use.
+// This logic is hardcoded in the event handler.
+// Should refactor to compartmentalize functions
+
+const displayRenderer = (function () {
+    function drawSymbols() {
+        cells.forEach((element) => {
+            element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
+        });
+    };
+    function showPlayerNames() {
+        displayPlayer1.textContent = Players
+    }
+    return { drawSymbols, showPlayerNames }
+})();
+
+// Game State object progresses game flow
+// winnerCheck can be optimized, but performance gain is negligible in a turn-based game, so low priority
 
 const gameState = (function () {
     let activePlayer;
@@ -143,18 +198,11 @@ const gameState = (function () {
     return { startGame, playRound }
 })();
 
-const displayRenderer = (function () {
-    function drawSymbols() {
-        cells.forEach((element) => {
-            element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
-        });
-    };
-    function showPlayerNames() {
-        displayPlayer1.textContent = Players
-    }
-    return { drawSymbols, showPlayerNames }
-})();
+/*----------------*/
+/* EVENT HANDLERS */
+/*----------------*/
 
+// Board cells have coordinates in HTML data properties
 cells.forEach((element) => {
     element.addEventListener("click", () => {
         if (Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column) === "") {
@@ -163,31 +211,6 @@ cells.forEach((element) => {
     });
 });
 
-// Working on this shit
-
-const Players =(function() {
-    let player1;
-    let player2;
-    function setP1(p) {
-        player1 = p;
-    }
-    function getP1() {
-        return player1;
-    }
-    function setP2(p) {
-        player2 = p;
-    }
-    function getP2() {
-        return player2;
-    }
-    return { setP1, setP2, getP1, getP2 }
-})();
-
-function registerPlayers(name1, name2) {
-    Players.setP1(createPlayer(name1, "X"));
-    Players.setP2(createPlayer(name2, "O"));
-}
-
 buttonNameInput.addEventListener("click", (event) => {
     event.preventDefault();
     registerPlayers(nameInputP1.value, nameInputP2.value);
@@ -195,25 +218,18 @@ buttonNameInput.addEventListener("click", (event) => {
     dialogPlayerRegister.close();
 });
 
+buttonRestart.addEventListener("click", () => {
+
+})
+
+/*------------------*/
+/* STARTUP COMMANDS */
+/*------------------*/
+
 dialogPlayerRegister.showModal();
 
 /*----------------*/
-/* Test functions */
+/* TEST FUNCTIONS */
 /*----------------*/
-/*
-function testPlay(row, column) {
-    gameState.playRound(row, column);
-    console.log(" ");
-}
 
-gameState.startGame();
-//console.log(Gameboard.getBoard());
-
-testPlay(0, 1);
-testPlay(1, 2);
-testPlay(0, 2);
-testPlay(0, 0);
-testPlay(1, 1);
-testPlay(2, 0);
-testPlay(2, 1);
-*/
+// No test functions in use at the moment
