@@ -1,13 +1,14 @@
 const dialogPlayerRegister = document.querySelector("#register-player");
-const dialogGameOver = document.querySelector("#game-over");
+const nameInputP1 = document.querySelector("#p1-name");
+const nameInputP2 = document.querySelector("#p2-name");
+const buttonNameInput = document.querySelector("#submit-pname");
 
 const cells = document.querySelectorAll(".cell");
 const displayPlayer1 = document.querySelector("#display-player1");
 const displayPlayer2 = document.querySelector("#display-player2");
 
-const nameInputP1 = document.querySelector("#p1-name");
-const nameInputP2 = document.querySelector("#p2-name");
-const buttonNameInput = document.querySelector("#submit-pname");
+const dialogGameOver = document.querySelector("#game-over");
+const messageGameOver = document.querySelector("#gameover-message");
 
 const Gameboard = (function () {
     function createField() {
@@ -60,13 +61,13 @@ const gameState = (function () {
         let winnerCheck = 0;
         function winnerCalc() {
             if (winnerCheck === 3) {
-                dialogGameOver.textContent = `${Players.getP1().name} wins!`;
+                messageGameOver.textContent = `${Players.getP1().name} wins!`;
                 dialogGameOver.showModal();
                 console.log("Player 1 wins!");
                 winnerCheck = 0;
                 return;
             } else if (winnerCheck === -3) {
-                dialogGameOver.textContent = `${Players.getP2().name} wins!`;
+                messageGameOver.textContent = `${Players.getP2().name} wins!`;
                 dialogGameOver.showModal();
                 console.log("Player 2 wins!");
                 winnerCheck = 0;
@@ -124,7 +125,7 @@ const gameState = (function () {
                 }
             }
         }
-        dialogGameOver.textContent = "No contest!";
+        messageGameOver.textContent = "No contest!";
         dialogGameOver.showModal();
     }
 

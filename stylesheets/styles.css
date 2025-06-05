@@ -89,7 +89,19 @@ table.board {
     justify-self: center;
 }
 
-#game-over {
+.gameover-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 7rem 2rem;
     text-align: center;
+}
+
+.gameover-container p {
     font-weight: bold;
+    font-size: 4rem;
+    align-self: center;
+}
+
+.gameover-container #restart-game {
+    justify-self: center;
 }
