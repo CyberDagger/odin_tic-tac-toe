@@ -44,6 +44,13 @@ const Gameboard = (function () {
     function getFieldSymbol(row, column) {
         return fields[row][column].getSymbol();
     }
+    function resetSymbols() {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                fields[i][j].setSymbol("");
+            }
+        }
+    }
     function getBoard() {
         console.log(`${(this.getFieldSymbol(0, 0))}|${(this.getFieldSymbol(0, 1))}|${(this.getFieldSymbol(0, 2))}`);
         console.log(`-----`);
@@ -51,7 +58,7 @@ const Gameboard = (function () {
         console.log(`-----`);
         console.log(`${(this.getFieldSymbol(2, 0))}|${(this.getFieldSymbol(2, 1))}|${(this.getFieldSymbol(2, 2))}`);
     }
-    return { setFieldSymbol, getFieldSymbol, getBoard };
+    return { setFieldSymbol, getFieldSymbol, resetSymbols, getBoard };
 })();
 
 // Players object has data about the players saved inside it
@@ -219,7 +226,10 @@ buttonNameInput.addEventListener("click", (event) => {
 });
 
 buttonRestart.addEventListener("click", () => {
-
+    Gameboard.resetSymbols();
+    displayRenderer.drawSymbols();
+    dialogGameOver.close();
+    dialogPlayerRegister.showModal();
 })
 
 /*------------------*/
