@@ -84,8 +84,8 @@ const Players =(function() {
 })();
 
 function registerPlayers(name1, name2) {
-    Players.setP1(createPlayer(name1, "/images/cross.svg"));
-    Players.setP2(createPlayer(name2, "/images/circle.svg"));
+    Players.setP1(createPlayer(name1, "images/cross.svg"));
+    Players.setP2(createPlayer(name2, "images/circle.svg"));
 }
 
 function createPlayer(name, symbol) {
