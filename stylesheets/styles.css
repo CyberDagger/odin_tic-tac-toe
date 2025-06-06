@@ -51,12 +51,20 @@ table.board {
 .board button.cell {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     padding: 0;
     background-color: transparent;
     font-size: 90px;
     color: black;
     line-height: 90px;
+}
+
+.play-symbol {
+    max-width: 90%;
+    max-height: 90%;
 }
 
 #turn-message {

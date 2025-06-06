@@ -84,8 +84,8 @@ const Players =(function() {
 })();
 
 function registerPlayers(name1, name2) {
-    Players.setP1(createPlayer(name1, "X"));
-    Players.setP2(createPlayer(name2, "O"));
+    Players.setP1(createPlayer(name1, "../images/cross.svg"));
+    Players.setP2(createPlayer(name2, "../images/circle.svg"));
 }
 
 function createPlayer(name, symbol) {
@@ -100,7 +100,14 @@ function createPlayer(name, symbol) {
 const displayRenderer = (function () {
     function drawSymbols() {
         cells.forEach((element) => {
-            element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
+            //element.textContent = Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column);
+            if (element.hasChildNodes()) {
+                element.removeChild(element.firstChild);
+            }
+            let img = document.createElement("img");
+            img.classList.add("play-symbol");
+            img.setAttribute("src", Gameboard.getFieldSymbol(element.dataset.row, element.dataset.column));
+            element.appendChild(img);
         });
     };
     function showPlayerNames() {
@@ -150,9 +157,9 @@ const gameState = (function () {
         // Check horizontals
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (Gameboard.getFieldSymbol(i, j) === "X") {
+                if (Gameboard.getFieldSymbol(i, j) === Players.getP1().symbol) {
                     winnerCheck++;
-                } else if (Gameboard.getFieldSymbol(i, j) === "O") {
+                } else if (Gameboard.getFieldSymbol(i, j) === Players.getP2().symbol) {
                     winnerCheck--;
                 }
             }
@@ -161,9 +168,9 @@ const gameState = (function () {
         // Check verticals
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (Gameboard.getFieldSymbol(j, i) === "X") {
+                if (Gameboard.getFieldSymbol(j, i) === Players.getP1().symbol) {
                     winnerCheck++;
-                } else if (Gameboard.getFieldSymbol(j, i) === "O") {
+                } else if (Gameboard.getFieldSymbol(j, i) === Players.getP2().symbol) {
                     winnerCheck--;
                 }
             }
@@ -171,17 +178,17 @@ const gameState = (function () {
         }
         // Check diagonals
         for (let i = 0; i < 3; i++) {
-            if (Gameboard.getFieldSymbol(i, i) === "X") {
+            if (Gameboard.getFieldSymbol(i, i) === Players.getP1().symbol) {
                 winnerCheck++;
-            } else if (Gameboard.getFieldSymbol(i, i) === "O") {
+            } else if (Gameboard.getFieldSymbol(i, i) === Players.getP2().symbol) {
                 winnerCheck--;
             }
         }
         winnerCalc();
         for (let i = 0; i < 3; i++) {
-            if (Gameboard.getFieldSymbol(i, 2 - i) === "X") {
+            if (Gameboard.getFieldSymbol(i, 2 - i) === Players.getP1().symbol) {
                 winnerCheck++;
-            } else if (Gameboard.getFieldSymbol(i, 2 - i) === "O") {
+            } else if (Gameboard.getFieldSymbol(i, 2 - i) === Players.getP2().symbol) {
                 winnerCheck--;
             }
         }
