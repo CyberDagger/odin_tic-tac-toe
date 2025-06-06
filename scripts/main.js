@@ -6,6 +6,7 @@
 const cells = document.querySelectorAll(".cell");
 const displayPlayer1 = document.querySelector("#display-player1");
 const displayPlayer2 = document.querySelector("#display-player2");
+const textTurn = document.querySelector("#turn-message");
 //Game Start Dialog
 const dialogPlayerRegister = document.querySelector("#register-player");
 const nameInputP1 = document.querySelector("#p1-name");
@@ -104,8 +105,11 @@ const displayRenderer = (function () {
     };
     function showPlayerNames() {
         displayPlayer1.textContent = Players
+    };
+    function showTurnMessage() {
+        textTurn.textContent = `${gameState.getActivePlayer()}'s turn`;
     }
-    return { drawSymbols, showPlayerNames }
+    return { drawSymbols, showPlayerNames, showTurnMessage }
 })();
 
 // Game State object progresses game flow
@@ -113,10 +117,15 @@ const displayRenderer = (function () {
 
 const gameState = (function () {
     let activePlayer;
+    function getActivePlayer() {
+        return activePlayer.name;
+    }
+
     function startGame() {
         displayPlayer1.textContent = Players.getP1().name;
         displayPlayer2.textContent = Players.getP2().name;
         activePlayer = Players.getP1();
+        displayRenderer.showTurnMessage();
     }
 
     function checkWin() {
@@ -201,8 +210,9 @@ const gameState = (function () {
         } else {
             activePlayer = Players.getP1();
         }
+        displayRenderer.showTurnMessage();
     }
-    return { startGame, playRound }
+    return { startGame, playRound, getActivePlayer }
 })();
 
 /*----------------*/

@@ -59,6 +59,14 @@ table.board {
     line-height: 90px;
 }
 
+#turn-message {
+    border: 3px solid black;
+    width: 10rem;
+    height: 2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
 .player-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
